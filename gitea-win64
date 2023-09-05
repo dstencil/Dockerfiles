@@ -1,0 +1,20 @@
+FROM chocolatey/choco:v2.2.2
+
+
+ADD https://github.com/go-gitea/gitea/releases/download/v1.20.3/gitea-1.20.3-windows-4.0-amd64.exe C:\\gitea_install\\gitea.exe
+
+#SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+RUN choco install git make -y
+RUN cmd $env:Path += ";C:\Program Files\Git\bin"
+
+WORKDIR C:\\gitea
+
+VOLUME C:\\gitea
+
+ENV GITEA_CUSTOM C:\\gitea
+
+ENV ROOT C:\\gitea
+EXPOSE 3000
+CMD ["C:\\gitea_install\\gitea.exe", "web"]
+
